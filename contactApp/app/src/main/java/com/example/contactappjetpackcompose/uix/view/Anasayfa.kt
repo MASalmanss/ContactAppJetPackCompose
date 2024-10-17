@@ -1,6 +1,5 @@
 package com.example.contactappjetpackcompose.uix.view
 
-import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -30,26 +30,64 @@ import com.google.gson.Gson
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnaSayfa(navController: NavController){
+fun AnaSayfa(navController: NavController) {
 
-    var arama by remember { mutableStateOf(false) }
-    Scaffold (topBar = { TopAppBar(title = { Text("Ana Sayfa") }) }
-            , floatingActionButton = { FloatingActionButton(onClick = {navController.navigate("KisiKayitSayfa")}
-            , content = { Icon(painter = painterResource(R.drawable.kapa_resim_24) , contentDescription = "") })} )
-    { innerpadding ->
-        Column (modifier = Modifier.fillMaxSize().padding(innerpadding)
-            , verticalArrangement = Arrangement.SpaceEvenly
-            , horizontalAlignment = Alignment.CenterHorizontally)
-        {
+    var aramaYapiliyorMu by remember { mutableStateOf(false) }
+    var tf by remember { mutableStateOf("") }
 
-            Button(modifier = Modifier.size(250.dp , 50.dp) , onClick = {
-                val kisi = Kisiler(1, "Ahmet" , "1111")
-                val kisiJson = Gson().toJson(kisi)
-                navController.navigate("KisiDetaySayfa/$kisiJson")
-            }) {
-                Text(text = "Deaty")
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                actions = {
+                    IconButton(onClick = {
+                        aramaYapiliyorMu = !aramaYapiliyorMu
+                    }) {
+                        Icon(
+                            painter = painterResource(R.drawable.ara_resim_24),
+                            contentDescription = "Arama İkonu"
+                        )
+                    }
+                },
+                title = {
+                    if (aramaYapiliyorMu) {
+                        Text("Arama")
+                    } else {
+                        Text("Kişiler")
+                    }
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate("KisiKayitSayfa")
+                },
+                content = {
+                    Icon(
+                        painter = painterResource(R.drawable.kapa_resim_24),
+                        contentDescription = "Kişi Kayıt"
+                    )
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Button(
+                modifier = Modifier.size(250.dp, 50.dp),
+                onClick = {
+                    val kisi = Kisiler(1, "Ahmet", "1111")
+                    val kisiJson = Gson().toJson(kisi)
+                    navController.navigate("KisiDetaySayfa/$kisiJson")
+                }
+            ) {
+                Text(text = "Detay")
             }
-
         }
     }
 }
