@@ -21,11 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.contactappjetpackcompose.uix.viewmodel.KisiKayitViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
-fun KisiKayitSayfa(){
+fun KisiKayitSayfa(kisiKayitViewModel: KisiKayitViewModel){
     var tfKisiAd by remember { mutableStateOf("") }
     var tfKisiTel by remember { mutableStateOf("") }
 

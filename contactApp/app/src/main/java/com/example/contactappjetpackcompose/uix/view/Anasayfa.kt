@@ -16,12 +16,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.contactappjetpackcompose.R
 import com.example.contactappjetpackcompose.data.entity.Kisiler
+import com.example.contactappjetpackcompose.uix.viewmodel.AnaSayfaViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnaSayfa(navController: NavController) {
+fun AnaSayfa(navController: NavController , anaSayfaViewModel: AnaSayfaViewModel) {
 
     var aramaYapiliyorMu by remember { mutableStateOf(false) }
     var tf by remember { mutableStateOf("") }
