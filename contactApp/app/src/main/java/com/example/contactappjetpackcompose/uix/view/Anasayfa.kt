@@ -6,11 +6,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -22,28 +22,24 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnaSayfa(navController: NavController , anaSayfaViewModel: AnaSayfaViewModel) {
+fun AnaSayfa(navController: NavController, anaSayfaViewModel: AnaSayfaViewModel) {
 
     var aramaYapiliyorMu by remember { mutableStateOf(false) }
     var tf by remember { mutableStateOf("") }
-    var kisilerListesi by remember { mutableStateOf(listOf<Kisiler>()) }
+    val kisilerListesi by anaSayfaViewModel.kisilerListesi.observeAsState(listOf()) // Listeyi gözlemliyoruz
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    // Başlangıçta örnek veri eklenmesi için
-    LaunchedEffect(key1 = 1) {
-        val k1 = Kisiler(1, "Akif", "1111")
-        val k2 = Kisiler(2, "Ahmet", "2222")
-        val k3 = Kisiler(3, "Gizem", "3333")
-        kisilerListesi = kisilerListesi + k1 + k2 + k3
-    }
-
     fun ara(aramaKelimesi: String) {
-        // Arama işlemi buraya
+       // anaSayfaViewModel.ara(aramaKelimesi)  // Arama işlemi ViewModel'de yapılmalı
     }
 
-    fun sil(silinecekKisi: Kisiler) {
-        kisilerListesi = kisilerListesi.filter { it.kisi_id != silinecekKisi.kisi_id }
+    fun sil(kisi: Kisiler) {
+       // anaSayfaViewModel.sil(kisi)  // Silme işlemi ViewModel'de yapılmalı
+    }
+
+    LaunchedEffect(key1 = true) {
+        anaSayfaViewModel.kisiyukle()
     }
 
     Scaffold(
@@ -108,13 +104,13 @@ fun AnaSayfa(navController: NavController , anaSayfaViewModel: AnaSayfaViewModel
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
-                            Text(text = kisi.kisi_ad, fontSize = 20.sp)
+                            Text(text = kisi.kisi_ad, fontSize = 20.sp) // kisi.kisi_ad eksik yazılmış
                             Spacer(modifier = Modifier.size(10.dp))
                             Text(text = kisi.kisi_tel)
                         }
                         IconButton(onClick = {
                             scope.launch {
-                                sil(kisi) // Kişiyi listeden sil
+                                sil(kisi) // Kişiyi ViewModel'den sil
                                 snackbarHostState.showSnackbar("${kisi.kisi_ad} silindi.")
                             }
                         }) {

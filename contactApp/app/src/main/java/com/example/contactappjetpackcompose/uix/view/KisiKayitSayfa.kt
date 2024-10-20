@@ -29,9 +29,7 @@ fun KisiKayitSayfa(kisiKayitViewModel: KisiKayitViewModel){
     var tfKisiAd by remember { mutableStateOf("") }
     var tfKisiTel by remember { mutableStateOf("") }
 
-    fun kaydet(kisi_da : String , kisi_tel : String){
 
-    }
 
     Scaffold (topBar = { TopAppBar(title = { Text("Kişi Kayıt") }) })
     { innerpadding ->
@@ -42,7 +40,7 @@ fun KisiKayitSayfa(kisiKayitViewModel: KisiKayitViewModel){
             TextField(value = tfKisiAd , onValueChange = {tfKisiAd = it} , label = { Text(text = "Kişi Ad") } )
             TextField(value = tfKisiTel , onValueChange = {tfKisiTel = it} , label = { Text(text = "Kişi Tel") } )
 
-            Button(modifier = Modifier.size(250.dp , 50.dp) , onClick = {kaydet(tfKisiAd , tfKisiTel)}) {
+            Button(modifier = Modifier.size(250.dp , 50.dp) , onClick = {kisiKayitViewModel.kaydet(tfKisiAd , tfKisiTel)}) {
                 Text(text = "Kaydet")
             }
         }
